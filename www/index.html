@@ -20,7 +20,7 @@
     <script src="lib/lodash/lodash.min.js"></script>
 
     <script src="lib/js-extensions.js"></script>
-
+    <script src="lib/circular-json/build/circular-json.js"></script>
 
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
@@ -30,13 +30,7 @@
     <script src="js/controllers.js"></script>
     <script src="js/services.js"></script>
 
-    <script>
 
-      var TreeNode = require("jsx.TreeNode");
-      console.log(new TreeNode());
-
-
-    </script>
   </head>
   <body ng-app="starter" ng-controller="BaseCtrl">
     <!--
@@ -44,7 +38,7 @@
     -->
     <ion-header-bar align-title="left" class="bar-positive">
       <div class="buttons">
-        <button class="button" ng-click="PopupAdd()">Add Node</button>
+        <button class="button" ng-click="PopupAdd(GetCurrent())">Add Node</button>
       </div>
       <div class="buttons">
         <button class="button" ng-click="Save()">Save</button>

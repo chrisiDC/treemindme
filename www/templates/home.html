@@ -1,20 +1,21 @@
 <ion-view view-title="home">
 
   <ion-content>
+    <button ng-if="GetCurrent().parent != null" class="button button-icon icon ion-ios-arrow-up" ng-click="Collapse(item)"></button>
     <ul class="list">
 
 
-      <li class="item row" ng-show="!IsEditNode(item.id)" ng-repeat-start="item in nodes">
+      <li class="item row" ng-show="!IsEditNode(item.key)" ng-repeat-start="item in GetCurrent().children">
 
 
         <div class="col col-75">
           <div class="row">
             <div class="col col-10">
-              <button class="button button-icon icon ion-ios-arrow-down" ng-click="Expand(item.id)"></button>
-              <button class="button button-icon icon ion-ios-arrow-up" ng-click="Collapse(item.id)"></button>
+              <button class="button button-icon icon ion-ios-arrow-down" ng-click="Expand(item)"></button>
+              <button ng-if="GetCurrent().parent != null" class="button button-icon icon ion-ios-arrow-up" ng-click="Collapse(item)"></button>
             </div>
             <div class="col col-90">
-              <h2 ng-click="SetEditNode(item.id)">{{item.value}}</h2>
+              <h2 ng-click="SetEditNode(item.key)">{{item.data.value}}</h2>
             </div>
           </div>
 
@@ -23,21 +24,21 @@
 
         </div>
         <div class="col">
-          <button class="button" ng-click="SetEditNode(item.id)">Edit
+          <button class="button" ng-click="SetEditNode(item.key)">Edit
           </button>
-          <button class="button ion-close-circled" ng-click="PopupDelete(item.id)"></button>
+          <button class="button ion-close-circled" ng-click="PopupDelete(item.key)"></button>
 
         </div>
 
 
       </li>
-      <li class="item row" ng-show="IsEditNode(item.id)" ng-repeat-end>
+      <li class="item row" ng-show="IsEditNode(item.key)" ng-repeat-end>
 
 
         <div class="col col-75">
 
           <label class="item item-input">
-            <input type="text" placeholder="" ng-model="item.value">
+            <input type="text" placeholder="" ng-model="item.data.value">
           </label>
 
         </div>

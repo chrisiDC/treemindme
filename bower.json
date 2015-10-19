@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "angular-local-storage": "~0.2.3",
-    "lodash": "~3.10.1"
+    "lodash": "~3.10.1",
+    "circular-json": "~0.2.0"
   }
 }

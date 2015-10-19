@@ -18,7 +18,8 @@ angular.module('starter', ['ionic',"LocalStorageModule", 'starter.controllers', 
     });
   })
   .constant('_', _)
-/*  .constant('TreeNode',require('js-extensions'))*/
+  .constant('TreeNode', require("jsx.TreeNode"))
+    .constant("CircularJSON",CircularJSON)
   .config(function ($stateProvider, $urlRouterProvider) {
 
     // Ionic uses AngularUI Router which uses the concept of states

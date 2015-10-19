@@ -1,110 +1,142 @@
 angular.module('starter.controllers', [])
 
 
-  .controller('BaseCtrl', function ($scope, $http, $ionicPopup, TreeService) {
+    .controller('BaseCtrl', function ($scope, $http, localStorageService, $ionicPopup, TreeNode, CircularJSON) {
 
 
-    var vm = {};
-    $scope.vm = vm;
+        var root = null;
+        var current = null;
+        $scope.nodes = [];
 
-    vm.nodes = [];
-    vm.node = "";
+        var storedNodes = localStorageService.get('tree');
 
-    vm.Delete = function () {
+        if (storedNodes === null) {
+            {
+                $http({
+                    method: 'GET',
+                    url: '/empty.json'
+                }).then(function (response) {
 
-    }
+                    root = new TreeNode({});
+                    current = root;
 
-    $scope.Save = function () {
-      TreeService.Save();
-    }
-
-    $scope.PopupAdd = function () {
-      var myPopup = $ionicPopup.show({
-        template: '<input type="text" ng-model="vm.node" autofocus>',
-        title: 'Enter Wi-Fi Password',
-        subTitle: 'Please use normal things',
-        scope: $scope,
-        autofocus: true,
-        buttons: [
-          {text: 'Cancel'},
-          {
-            text: '<b>Save</b>',
-            type: 'button-positive',
-            onTap: function (e) {
-              OnNodeAdd($scope.vm.node);
-
-
+                });
             }
-          }
-        ]
-      });
-    }
-
-    $scope.PopupDelete = function (id) {
-      var confirmPopup = $ionicPopup.confirm({
-        title: 'Consume Ice Cream',
-        template: 'Are you sure you want to eat this ice cream?'
-      });
-      confirmPopup.then(function (res) {
-        if (res) {
-          OnNodeDelete(id);
         }
-      });
-    }
+        else {
+
+            var parsed = CircularJSON.parse(storedNodes);
+            root = new TreeNode().fromJSON(null,parsed);
+            current = root;
+        }
 
 
-    _.forEach(TreeService.Get(), function (node) {
-      vm.nodes.push(node);
-    });
 
-    function OnNodeDelete(id) {
-      TreeService.RemoveNode(id);
+        $scope.GetCurrent = function () {
+            return current;
+        }
 
-    }
+        $scope.SetCurrent = function (key) {
+            current = root.find(key);
+        }
 
-    function OnNodeAdd(name) {
-      TreeService.AddNode(name);
+        $scope.Save = function () {
+            localStorageService.set('tree', CircularJSON.stringify(root));
+        }
 
-    }
-
-
-  })
-  .controller('HomeCtrl', function ($scope, TreeService) {
-
-    var editNode = null;
-
-
-    $scope.nodes = TreeService.Get();
-
-    $scope.IsEditNode = function (nodeId) {
-      return editNode === nodeId;
-    }
-
-    $scope.SetEditNode = function (nodeId) {
-      editNode = nodeId;
-    }
-
-    $scope.Expand = function (nodeId) {
-      TreeService.Expand(nodeId);
-      $scope.nodes.length = 0;
-      _.forEach(TreeService.Get(), function (node) {
-        $scope.nodes.push(node);
-      });
-
-    }
-
-    $scope.Collapse = function (nodeId) {
-
-      TreeService.Collapse(nodeId);
-      $scope.nodes.length = 0;
-      _.forEach(TreeService.Get(), function (node) {
-        $scope.nodes.push(node);
-      });
-
-    }
+        $scope.PopupAdd = function (node) {
+            $scope.popupData = {};
+            var myPopup = $ionicPopup.show({
+                template: '<input type="text" ng-model="popupData.nodeText" autofocus>',
+                title: 'Enter Wi-Fi Password',
+                subTitle: 'Please use normal things',
+                scope: $scope,
+                autofocus: true,
+                buttons: [
+                    {text: 'Cancel'},
+                    {
+                        text: '<b>Save</b>',
+                        type: 'button-positive',
+                        onTap: function (e) {
+                            OnNodeAdd(node, $scope.popupData.nodeText);
 
 
-  })
+                        }
+                    }
+                ]
+            });
+        }
+
+        $scope.PopupDelete = function (key) {
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Consume Ice Cream',
+                template: 'Are you sure you want to eat this ice cream?'
+            });
+            confirmPopup.then(function (res) {
+                if (res) {
+                    OnNodeDelete(key);
+                }
+            });
+        }
+
+
+        function OnNodeDelete(key) {
+            root.removeChildByKey(key);
+
+        }
+
+        function OnNodeAdd(node, nodeText) {
+
+            root.find(node.key).addChild(new TreeNode({value: nodeText}));
+            $scope.nodes.push(node);
+        }
+
+
+    })
+    .controller('HomeCtrl', function ($scope, TreeService) {
+
+        var editNode = null;
+
+
+        $scope.IsEditNode = function (nodeId) {
+            return editNode === nodeId;
+        }
+
+        $scope.SetEditNode = function (nodeId) {
+            editNode = nodeId;
+        }
+
+        $scope.Expand = function (node) {
+            $scope.nodes = [];
+            $scope.SetCurrent(node.key);
+            _.forEach($scope.GetCurrent().children, function (node) {
+
+                var clone = _.cloneDeep(node);
+                clone.children = [];
+                clone.parent = null;
+                $scope.nodes.push(clone);
+            })
+
+        }
+
+        $scope.Collapse = function () {
+
+            $scope.nodes = [];
+            $scope.SetCurrent($scope.GetCurrent().getParentNode().key);
+            _.forEach($scope.GetCurrent().children, function (node) {
+
+                var clone = _.cloneDeep(node);
+                clone.children = [];
+                clone.parent = null;
+                $scope.nodes.push(clone);
+            })
+
+        }
+
+
+    })
+
+
 
 
 
