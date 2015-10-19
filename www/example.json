@@ -1,0 +1,55 @@
+
+   [
+    {
+
+      "type":"root",
+      "value":"knowledge",
+      "priority":0,
+      "id":1,
+      "nodes":[
+        {
+
+          "type":"container",
+          "value":"javascript",
+          "priority":0,
+          "id":2,
+          "nodes":[
+            {
+
+              "type":"container",
+              "value":"language",
+              "priority":0,
+              "id":3,
+              "nodes":[
+                {
+
+                  "type":"data",
+                  "value":"you dont know js",
+                  "priority":0,
+                  "id":4,
+                  "nodes":[]
+                },
+                {
+
+                  "type":"data",
+                  "value":"get better writing js code!",
+                  "priority":0,
+                  "id":5,
+                  "nodes":[]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "value":"todo",
+      "type":"root",
+      "priority":0,
+      "id":6,
+      "nodes":[]
+    }
+
+  ]
+

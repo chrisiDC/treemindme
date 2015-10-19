@@ -1,0 +1,54 @@
+<ion-view view-title="home">
+
+  <ion-content>
+    <ul class="list">
+
+
+      <li class="item row" ng-show="!IsEditNode(item.id)" ng-repeat-start="item in nodes">
+
+
+        <div class="col col-75">
+          <div class="row">
+            <div class="col col-10">
+              <button class="button button-icon icon ion-ios-arrow-down" ng-click="Expand(item.id)"></button>
+              <button class="button button-icon icon ion-ios-arrow-up" ng-click="Collapse(item.id)"></button>
+            </div>
+            <div class="col col-90">
+              <h2 ng-click="SetEditNode(item.id)">{{item.value}}</h2>
+            </div>
+          </div>
+
+
+
+
+        </div>
+        <div class="col">
+          <button class="button" ng-click="SetEditNode(item.id)">Edit
+          </button>
+          <button class="button ion-close-circled" ng-click="PopupDelete(item.id)"></button>
+
+        </div>
+
+
+      </li>
+      <li class="item row" ng-show="IsEditNode(item.id)" ng-repeat-end>
+
+
+        <div class="col col-75">
+
+          <label class="item item-input">
+            <input type="text" placeholder="" ng-model="item.value">
+          </label>
+
+        </div>
+        <div class="col">
+          <button class="button" ng-click="SetEditNode(null)">Save</button>
+        </div>
+
+
+      </li>
+
+
+    </ul>
+  </ion-content>
+</ion-view>
