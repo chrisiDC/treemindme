@@ -2,17 +2,16 @@
 
   <ion-content>
 
-
-    <a ng-if="GetCurrent().parent != null" class="button icon-left ion-chevron-left button-clear button-stable" ng-click="Collapse(item)"></a>
+    <a ng-show="hasParent()" class="button icon-left ion-chevron-left button-clear button-stable" ng-click="MoveToParentNode()"></a>
 
     <ul class="list">
 
 
-      <li class="row" ng-show="!IsEditNode(item.key)" ng-repeat-start="item in GetCurrent().children">
+      <li class="row" ng-show="!IsEditNode(item.key)" ng-repeat-start="item in nodes">
 
         <div class="col col-10">
-          <a class="button icon-left ion-chevron-right button-clear button-stable" ng-click="Expand(item)"></a>
-          <a ng-if="GetCurrent().parent != null" class="button button-assertive icon ion-chevron-left" ng-click="Collapse(item)"></a>
+          <a class="button icon-left ion-chevron-right button-clear button-stable" ng-click="MoveToNode(item)"></a>
+          <a ng-if="hasParent()" class="button icon-left ion-chevron-left button-clear button-stable"  ng-click="MoveToParentNode(item)"></a>
         </div>
         <div class="col col-50 col-center">
         {{ item.data.value | limitTo:textLimit }}

@@ -1,86 +1,24 @@
 angular.module('starter.services', [])
 
-  .factory('TreeService', function ($http, localStorageService, _, TreeNode) {
+  .factory('TreeViewService', function ($http, localStorageService, _, TreeNode, CircularJSON) {
+    var self=this;
+    self.viewNodes = [];
+    self.root = null;
+    self.current = null;
+    self.viewRefreshHandler = null;
 
+    function PrepareViewNode(node) {
+      var cloned = _.cloneDeep(node);
+      cloned.children = [];
+      cloned.parent = null;
 
-    var tree = null;
-    var storedNodes = localStorageService.get('tree');
-
-    if (!storedNodes || storedNodes.length === 0) {
-      {
-        $http({
-          method: 'GET',
-          url: '/example.json'
-        }).then(function (response) {
-
-          tree = new TreeNode(response.data);
-        });
-      }
+      return cloned;
     }
-    else {
-      tree = new TreeNode();
-    }
-
-    /*    function Reset(nodes)
-     {
-     current.length = 0;
-     _.forEach(nodes, function (node) {
-     current.push(node);
-     });
-     }*/
-
-    /*function AddNodes(nodesToAdd) {
-     _.forEach(nodesToAdd, function (node) {
-     nodes.push(node);
-     });
-     }*/
 
 
     return {
-      GetTree: function () {
-        return tree;
-      },
-      Save: function () {
-        localStorageService.set('tree', tree.GetRoot());
-      },
-      AddNode: function (name) {
-
-        tree.addChild(new TreeNode({name: name}));
-      },
-      RemoveNode: function (node) {
-        tree.removeChild(node);
-      },
-      Expand: function (nodeId) {
-        var node = _.find(nodes, {id: nodeId});
-
-        parents[nodeId] = current;
-        current = node.nodes;
-
-      },
-
-      Collapse: function (nodeId) {
-
-        current = parents[nodeId];
-
-
-      },
-
-      Get: function () {
-        return current;
-      }
-    }
-  })
-
-  .factory('TreeViewService', function ($http,localStorageService, _, TreeNode,CircularJSON) {
-
-    var nodes = [];
-    var root = null;
-    var current = null;
-
-
-    return {
-      Init:function()
-      {
+      Init: function (viewRefreshHandler) {
+        if (viewRefreshHandler) self.viewRefreshHandler = viewRefreshHandler;
         var storedNodes = localStorageService.get('tree');
 
         if (storedNodes === null) {
@@ -90,8 +28,8 @@ angular.module('starter.services', [])
               url: '/empty.json'
             }).then(function (response) {
 
-              root = new TreeNode({});
-              current = root;
+              self.root = new TreeNode({});
+              self.current = self.root;
 
             });
           }
@@ -99,9 +37,68 @@ angular.module('starter.services', [])
         else {
 
           var parsed = CircularJSON.parse(storedNodes);
-          root = new TreeNode().fromJSON(null, parsed);
-          current = root;
+          self.root = new TreeNode().fromJSON(null, parsed);//todo: use static method!
+          self.current = self.root;
+          _.forEach(self.root.children,function(child)
+          {
+            self.viewNodes.push(PrepareViewNode(child));
+          })
         }
+      },
+      Save: function () {
+        localStorageService.set('tree', CircularJSON.stringify(self.root));
+      },
+      Remove: function (key) {
+        self.root.removeChildByKey(key);
+        _.remove(self.viewNodes,{key:key});
+        self.viewRefreshHandler();
+
+      },
+      MoveToNode: function (node) {
+
+        self.viewNodes = [];
+
+        self.current = self.root.find(node.key);
+
+        console.log(self.current);
+        if (self.current === null) throw "its null";
+
+        _.forEach(self.current.children, function (node) {
+
+          self.viewNodes.push(PrepareViewNode(node));
+        })
+
+        self.viewRefreshHandler();
+
+      },
+      MoveToParentNode: function () {
+
+        self.viewNodes = [];
+        self.current = self.current.parent;
+        console.log(self.current);
+        _.forEach(self.current.children, function (node) {
+
+          self.viewNodes.push(PrepareViewNode(node));
+        })
+
+        self.viewRefreshHandler();
+
+      },
+      AddNode: function (text) {
+
+        var node = new TreeNode({value: text});
+        self.current.addChild(node);
+        self.viewNodes.push(PrepareViewNode(node));
+
+        self.viewRefreshHandler();
+      },
+      GetView:function()
+      {
+        return self.viewNodes;
+      },
+      HasParent:function()
+      {
+        return self.current.parent != null;
       }
     }
   });
