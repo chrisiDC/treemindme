@@ -1,0 +1,22 @@
+
+  <ion-modal-view ng-controller="AddNodeCtrl">
+    <ion-header-bar class="bar-positive">
+      <h1 class="title">Add Node</h1>
+      <div class="button-bar">
+        <a class="button icon ion-checkmark-round " ng-click="AddNode(viewModel.nodeText)"></a>
+        <a class="button icon ion-close-circled" ng-click="closeModal()"></a>
+
+      </div>
+
+    </ion-header-bar>
+    <ion-content>
+      <label class="item item-input">
+
+        <input type="text" rows="5" ng-model="viewModel.nodeText">
+        <!--<textarea rows="5" ng-model="nodeText"></textarea>-->
+      </label>
+
+
+    </ion-content>
+  </ion-modal-view>
+

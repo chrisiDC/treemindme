@@ -1,41 +1,62 @@
 <ion-view view-title="home">
 
   <ion-content>
-    <button ng-if="GetCurrent().parent != null" class="button button-icon icon ion-ios-arrow-up" ng-click="Collapse(item)"></button>
+
+
+    <a ng-if="GetCurrent().parent != null" class="button icon-left ion-chevron-left button-clear button-stable" ng-click="Collapse(item)"></a>
+
     <ul class="list">
 
 
-      <li class="item row" ng-show="!IsEditNode(item.key)" ng-repeat-start="item in GetCurrent().children">
+      <li class="row" ng-show="!IsEditNode(item.key)" ng-repeat-start="item in GetCurrent().children">
 
+        <div class="col col-10">
+          <a class="button icon-left ion-chevron-right button-clear button-stable" ng-click="Expand(item)"></a>
+          <a ng-if="GetCurrent().parent != null" class="button button-assertive icon ion-chevron-left" ng-click="Collapse(item)"></a>
+        </div>
+        <div class="col col-50 col-center">
+        {{ item.data.value | limitTo:textLimit }}
+         {{item.data.value.length > textLimit?"...":""}}
+        </div>
+        <div class="col col-40">
+          <div class="button-bar">
+            <a class="button icon ion-edit" ng-click="SetEditNode(item.key)"></a>
+            <a class="button icon ion-close-circled" ng-click="PopupDelete(item.key)"></a>
 
-        <div class="col col-75">
-          <div class="row">
-            <div class="col col-10">
-              <button class="button button-icon icon ion-ios-arrow-down" ng-click="Expand(item)"></button>
-              <button ng-if="GetCurrent().parent != null" class="button button-icon icon ion-ios-arrow-up" ng-click="Collapse(item)"></button>
-            </div>
-            <div class="col col-90">
-              <h2 ng-click="SetEditNode(item.key)">{{item.data.value}}</h2>
-            </div>
           </div>
 
-
-
-
         </div>
-        <div class="col">
-          <button class="button" ng-click="SetEditNode(item.key)">Edit
-          </button>
-          <button class="button ion-close-circled" ng-click="PopupDelete(item.key)"></button>
-
-        </div>
-
 
       </li>
-      <li class="item row" ng-show="IsEditNode(item.key)" ng-repeat-end>
+      <li class="" ng-show="IsEditNode(item.key)" ng-repeat-end>
 
 
-        <div class="col col-75">
+        <label class="item item-input">
+          <textarea rows="5" ng-model="item.data.value"></textarea>
+        </label>
+        <label class="item">
+          <button class="button button-block icon ion-checkmark-round  button-stable" ng-click="SetEditNode(null)"></button>
+
+        </label>
+
+      </li>
+
+
+
+ <!--       <div class="list">
+
+
+
+            <label class="item item-input">
+
+            </label>
+
+
+
+
+        </div>
+-->
+    <!--    <div class="col col-75">
 
           <label class="item item-input">
             <input type="text" placeholder="" ng-model="item.data.value">
@@ -45,9 +66,9 @@
         <div class="col">
           <button class="button" ng-click="SetEditNode(null)">Save</button>
         </div>
+-->
 
-
-      </li>
+      </div>
 
 
     </ul>

@@ -1,142 +1,147 @@
 angular.module('starter.controllers', [])
 
 
-    .controller('BaseCtrl', function ($scope, $http, localStorageService, $ionicPopup, TreeNode, CircularJSON) {
+  .controller('BaseCtrl', function ($scope, $http, localStorageService, $ionicModal, TreeNode, CircularJSON) {
 
 
-        var root = null;
-        var current = null;
-        $scope.nodes = [];
+    var root = null;
+    var current = null;
+    var addModal = null;
 
-        var storedNodes = localStorageService.get('tree');
 
-        if (storedNodes === null) {
-            {
-                $http({
-                    method: 'GET',
-                    url: '/empty.json'
-                }).then(function (response) {
+    $ionicModal.fromTemplateUrl('templates/AddNode.html', function (modal) {
+      addModal = modal;
+    }, {
+      scope: $scope,
+      animation: 'slide-in-up',
+      focusFirstInput: true
+    });
+    var storedNodes = localStorageService.get('tree');
 
-                    root = new TreeNode({});
-                    current = root;
+    if (storedNodes === null) {
+      {
+        $http({
+          method: 'GET',
+          url: '/empty.json'
+        }).then(function (response) {
 
-                });
-            }
+          root = new TreeNode({});
+          current = root;
+
+        });
+      }
+    }
+    else {
+
+      var parsed = CircularJSON.parse(storedNodes);
+      root = new TreeNode().fromJSON(null, parsed);
+      current = root;
+    }
+
+
+
+    $scope.GetCurrent = function () {
+      return current;
+    }
+
+    $scope.SetCurrent = function (key) {
+      current = root.find(key);
+    }
+
+    $scope.Save = function () {
+      localStorageService.set('tree', CircularJSON.stringify(root));
+    }
+
+    $scope.openModal = function () {
+      addModal.show();
+    };
+    $scope.closeModal = function () {
+      addModal.hide();
+    };
+    //Cleanup the modal when we're done with it!
+    $scope.$on('$destroy', function () {
+      addModal.remove();
+    });
+    $scope.PopupDelete = function (key) {
+      var confirmPopup = $ionicPopup.confirm({
+        title: 'Consume Ice Cream',
+        template: 'Are you sure you want to eat this ice cream?'
+      });
+      confirmPopup.then(function (res) {
+        if (res) {
+          OnNodeDelete(key);
         }
-        else {
-
-            var parsed = CircularJSON.parse(storedNodes);
-            root = new TreeNode().fromJSON(null,parsed);
-            current = root;
-        }
+      });
+    }
 
 
+    function OnNodeDelete(key) {
+      root.removeChildByKey(key);
 
-        $scope.GetCurrent = function () {
-            return current;
-        }
-
-        $scope.SetCurrent = function (key) {
-            current = root.find(key);
-        }
-
-        $scope.Save = function () {
-            localStorageService.set('tree', CircularJSON.stringify(root));
-        }
-
-        $scope.PopupAdd = function (node) {
-            $scope.popupData = {};
-            var myPopup = $ionicPopup.show({
-                template: '<input type="text" ng-model="popupData.nodeText" autofocus>',
-                title: 'Enter Wi-Fi Password',
-                subTitle: 'Please use normal things',
-                scope: $scope,
-                autofocus: true,
-                buttons: [
-                    {text: 'Cancel'},
-                    {
-                        text: '<b>Save</b>',
-                        type: 'button-positive',
-                        onTap: function (e) {
-                            OnNodeAdd(node, $scope.popupData.nodeText);
+    }
 
 
-                        }
-                    }
-                ]
-            });
-        }
+  })
+  .controller('HomeCtrl', function ($scope, _, TreeNode) {
 
-        $scope.PopupDelete = function (key) {
-            var confirmPopup = $ionicPopup.confirm({
-                title: 'Consume Ice Cream',
-                template: 'Are you sure you want to eat this ice cream?'
-            });
-            confirmPopup.then(function (res) {
-                if (res) {
-                    OnNodeDelete(key);
-                }
-            });
-        }
+    $scope.viewModel = {};
+    $scope.viewModel.nodeText = "";
 
 
-        function OnNodeDelete(key) {
-            root.removeChildByKey(key);
-
-        }
-
-        function OnNodeAdd(node, nodeText) {
-
-            root.find(node.key).addChild(new TreeNode({value: nodeText}));
-            $scope.nodes.push(node);
-        }
+    var editNode = null;
 
 
-    })
-    .controller('HomeCtrl', function ($scope, TreeService) {
+    $scope.textLimit = 15;
 
-        var editNode = null;
+    function PrepareViewNode(node) {
+      var cloned = _.cloneDeep(node);
+      cloned.children = [];
+      cloned.parent = null;
+    }
 
+    $scope.IsEditNode = function (nodeId) {
+      return editNode === nodeId;
+    }
 
-        $scope.IsEditNode = function (nodeId) {
-            return editNode === nodeId;
-        }
+    $scope.SetEditNode = function (nodeId) {
+      editNode = nodeId;
+    }
 
-        $scope.SetEditNode = function (nodeId) {
-            editNode = nodeId;
-        }
+    $scope.Expand = function (node) {
+      $scope.nodes = [];
+      $scope.SetCurrent(node.key);
+      _.forEach($scope.GetCurrent().children, function (node) {
 
-        $scope.Expand = function (node) {
-            $scope.nodes = [];
-            $scope.SetCurrent(node.key);
-            _.forEach($scope.GetCurrent().children, function (node) {
+        var clone = _.cloneDeep(node);
+        clone.children = [];
+        clone.parent = null;
+        $scope.nodes.push(clone);
+      })
 
-                var clone = _.cloneDeep(node);
-                clone.children = [];
-                clone.parent = null;
-                $scope.nodes.push(clone);
-            })
+    }
 
-        }
+    $scope.Collapse = function () {
 
-        $scope.Collapse = function () {
+      $scope.nodes = [];
+      $scope.SetCurrent($scope.GetCurrent().getParentNode().key);
+      _.forEach($scope.GetCurrent().children, function (node) {
 
-            $scope.nodes = [];
-            $scope.SetCurrent($scope.GetCurrent().getParentNode().key);
-            _.forEach($scope.GetCurrent().children, function (node) {
+        $scope.nodes.push(PrepareViewNode(node));
+      })
 
-                var clone = _.cloneDeep(node);
-                clone.children = [];
-                clone.parent = null;
-                $scope.nodes.push(clone);
-            })
-
-        }
-
-
-    })
+    }
 
 
+  })
+
+  .controller("AddNodeCtrl", function ($scope,TreeNode) {
+    $scope.AddNode = function (nodeText) {
+
+      var node = new TreeNode({value: nodeText});
+      $scope.GetCurrent().addChild(node);
+      $scope.nodes.push(PrepareViewNode(node));
+    }
+  });
 
 
 
