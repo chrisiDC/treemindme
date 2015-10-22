@@ -29,22 +29,29 @@ angular.module('starter', ['ionic',"LocalStorageModule", 'starter.controllers', 
 
 
 
-    /*  .state('main', {
-     url: '/main',
-     views: {
-     'main': {
-     templateUrl: 'templates/main.html',
-     controller: 'MainCtrl'
-     }
-     }
-     })*/
+
+
 
     $stateProvider.state('home', {
       url: '/',
-      templateUrl: 'templates/home.html',
-      controller: "HomeCtrl"
+      views: {
+        'home': {
+          templateUrl: 'templates/home.html',
+          controller: "HomeCtrl"
+        }
+      }
 
-    })
+    });
+
+    $stateProvider.state('tree', {
+      url: '/tree',
+      views: {
+        'tree': {
+          templateUrl: 'templates/tree.html',
+          controller: "TreeCtrl"
+        }
+      }
+    });
 
 
     // if none of the above states are matched, use this as the fallback

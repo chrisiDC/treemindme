@@ -6,28 +6,28 @@
       "value":"knowledge",
       "priority":0,
       "id":1,
-      "nodes":[
+      "node":[
         {
 
           "type":"container",
           "value":"javascript",
           "priority":0,
           "id":2,
-          "nodes":[
+          "node":[
             {
 
               "type":"container",
               "value":"language",
               "priority":0,
               "id":3,
-              "nodes":[
+              "node":[
                 {
 
                   "type":"data",
                   "value":"you dont know js",
                   "priority":0,
                   "id":4,
-                  "nodes":[]
+                  "node":[]
                 },
                 {
 
@@ -35,7 +35,7 @@
                   "value":"get better writing js code!",
                   "priority":0,
                   "id":5,
-                  "nodes":[]
+                  "node":[]
                 }
               ]
             }
@@ -48,7 +48,7 @@
       "type":"root",
       "priority":0,
       "id":6,
-      "nodes":[]
+      "node":[]
     }
 
   ]

@@ -1,75 +1,21 @@
+
 <ion-view view-title="home">
 
   <ion-content>
 
-    <a ng-show="hasParent()" class="button icon-left ion-chevron-left button-clear button-stable" ng-click="MoveToParentNode()"></a>
 
-    <ul class="list">
-
-
-      <li class="row" ng-show="!IsEditNode(item.key)" ng-repeat-start="item in nodes">
-
-        <div class="col col-10">
-          <a class="button icon-left ion-chevron-right button-clear button-stable" ng-click="MoveToNode(item)"></a>
-          <a ng-if="hasParent()" class="button icon-left ion-chevron-left button-clear button-stable"  ng-click="MoveToParentNode(item)"></a>
-        </div>
-        <div class="col col-50 col-center">
-        {{ item.data.value | limitTo:textLimit }}
-         {{item.data.value.length > textLimit?"...":""}}
-        </div>
-        <div class="col col-40">
-          <div class="button-bar">
-            <a class="button icon ion-edit" ng-click="SetEditNode(item.key)"></a>
-            <a class="button icon ion-close-circled" ng-click="PopupDelete(item.key)"></a>
-
-          </div>
-
-        </div>
-
-      </li>
-      <li class="" ng-show="IsEditNode(item.key)" ng-repeat-end>
-
-
-        <label class="item item-input">
-          <textarea rows="5" ng-model="item.data.value"></textarea>
-        </label>
-        <label class="item">
-          <button class="button button-block icon ion-checkmark-round  button-stable" ng-click="SetEditNode(null)"></button>
-
-        </label>
-
-      </li>
-
-
-
- <!--       <div class="list">
-
-
-
-            <label class="item item-input">
-
-            </label>
-
-
-
-
-        </div>
--->
-    <!--    <div class="col col-75">
-
-          <label class="item item-input">
-            <input type="text" placeholder="" ng-model="item.data.value">
-          </label>
-
-        </div>
-        <div class="col">
-          <button class="button" ng-click="SetEditNode(null)">Save</button>
-        </div>
--->
-
+    <label class="item item-input">
+      <input type="text" placeholder="Type new entry">
+    </label>
+    <label class="item item-input item-select">
+      <div class="input-label">
+        Move To
       </div>
-
-
-    </ul>
+      <select>
+        <option>Blue</option>
+        <option selected>Green</option>
+        <option>Red</option>
+      </select>
+    </label>
   </ion-content>
 </ion-view>

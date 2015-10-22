@@ -35,35 +35,41 @@ angular.module('starter.controllers', [])
       $scope.addModal.remove();
     });
 
-
-  })
-  .controller('HomeCtrl', function ($scope, _, $ionicPopup, TreeViewService) {
-
-    $scope.viewModel = {};
-    $scope.viewModel.nodeText = "";
-
-
-    var editNode = null;
-
-    TreeViewService.Init(Init);
-
-    Init();
-
-
-    function Init() {
-      $scope.nodes = [];
-      var nodes = TreeViewService.GetView();
-      _.forEach(nodes, function (node) {
-        $scope.nodes.push(node)
-      });
-      //$scope.hasParent = TreeViewService.HasParent();
-    }
-
     $scope.hasParent = function () {
       return TreeViewService.HasParent();
     }
 
-    $scope.textLimit = 15;
+
+    $scope.MoveToParentNode = function () {
+
+      TreeViewService.MoveToParentNode();
+
+    }
+
+  })
+  .controller('TreeCtrl', function ($scope, _, $ionicPopup, TreeNode,TreeViewService) {
+
+    var model = {};
+    $scope.model = model;
+    model.nodeText = "";
+
+    model.node=null;
+    var editNode = null;
+
+    TreeViewService.Init(Init).then(Init);
+
+  /*  Init();*/
+
+    model.node= TreeViewService.promise.GetView();
+    function Init() {
+
+      model.node= TreeViewService.GetView();
+
+    }
+
+
+
+    model.textLimit = 15;
 
 
     $scope.IsEditNode = function (nodeId) {
@@ -80,11 +86,6 @@ angular.module('starter.controllers', [])
 
     }
 
-    $scope.MoveToParentNode = function () {
-
-      TreeViewService.MoveToParentNode();
-
-    }
 
     $scope.PopupDelete = function (key) {
       var confirmPopup = $ionicPopup.confirm({
@@ -101,16 +102,27 @@ angular.module('starter.controllers', [])
 
   })
 
-  .
-  controller("AddNodeCtrl", function ($scope, TreeViewService) {
+  .controller("AddNodeCtrl", function ($scope, TreeViewService) {
     $scope.AddNode = function (nodeText) {
 
       TreeViewService.AddNode(nodeText);
       $scope.addModal.hide();
     }
-  });
+  })
 
+  .controller("HomeCtrl", function ($scope, TreeViewService) {
 
+    TreeViewService.GetRoot().then(function(root)
+    {
+      $scope.node = root;
+    });
+
+    $scope.AddNode = function (nodeText) {
+
+      TreeViewService.AddNode(nodeText);
+      $scope.addModal.hide();
+    }
+  })
 
 
 
