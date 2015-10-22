@@ -1,44 +1,43 @@
 angular.module('starter.services', [])
 
-  .factory('TreeViewService', function ($http, $q, localStorageService, _, TreeNode, CircularJSON) {
+  .factory('TreeViewService', function ($http, localStorageService, _, TreeNode, CircularJSON) {
     var self = this;
 
-    self.root = new TreeNode({value:"root"});
-    self.key=0;
+    self.root = new TreeNode({value: "root"});
+    self.key = 0;
 
-    self.current = root;
-/*    self.viewRefreshHandler = null;*/
-    self.deferred = $q.defer();
+    self.current = {node:self.root};
 
-/*
-    if (viewRefreshHandler) self.viewRefreshHandler = viewRefreshHandler;*/
     var storedNodes = localStorageService.get('tree');
 
     if (storedNodes === null) {
       {
         $http({
           method: 'GET',
-          url: '/empty.json'
+          url: '/empty.txt'
         }).then(function (response) {
 
-          var nodes = new TreeNode().fromJSON(null, response.data);//todo: use static method!
-          _.forEach(nodes,function(node)
-          {
-            self.root.children.push(node);
-          }
+          var parsed = CircularJSON.parse(response.data);
+          AddNodes(CircularJSON.parse(response.data));
 
-          self.deferred.resolve(self.root);
         });
       }
     }
     else {
 
       var parsed = CircularJSON.parse(storedNodes);
-      self.root = new TreeNode().fromJSON(null, parsed);//todo: use static method!
-      self.current = self.root;
-      self.deferred.resolve(self.root);
+      AddNodes( CircularJSON.parse(storedNodes));
+      var x = 1;
+
     }
 
+    function AddNodes(jsonData) {
+
+      var nodes = new TreeNode().fromJSON(self.root, jsonData);//todo: use static method!
+      _.forEach(nodes.children, function (node) {
+        self.current.node.children.push(node);
+      });
+    }
 
     return {
       /*  Init: function (viewRefreshHandler) {
@@ -74,40 +73,34 @@ angular.module('starter.services', [])
       Remove: function (key) {
         self.root.removeChildByKey(key);
 
-/*        self.viewRefreshHandler();*/
+        /*        self.viewRefreshHandler();*/
 
       },
       MoveToNode: function (node) {
 
-        self.current = self.root.find(node.key);
+        self.current.node = self.root.find(node.key);
 
-        if (self.current === null) throw "its null";
-
-       /* self.viewRefreshHandler();*/
 
       },
       MoveToParentNode: function () {
 
-        self.current = self.current.parent;
+        self.current.node = self.current.node.parent;
 
-     /*   self.viewRefreshHandler();*/
+        /*   self.viewRefreshHandler();*/
 
       },
       AddNode: function (text) {
 
         var node = new TreeNode({value: text});
-        self.current.addChild(node);
+        self.current.node.addChild(node);
 
-       /* self.viewRefreshHandler();*/
+        /* self.viewRefreshHandler();*/
       },
-      GetView: function () {
+      Current: function () {
         return self.current;
       },
       HasParent: function () {
-        return self.current.parent != null;
-      },
-      GetRoot: function () {
-        return self.deferred.promise;// self.root;
+        return self.current.node.parent != null;
       },
 
 

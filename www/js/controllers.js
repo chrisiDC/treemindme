@@ -53,21 +53,9 @@ angular.module('starter.controllers', [])
     $scope.model = model;
     model.nodeText = "";
 
-    model.node=null;
     var editNode = null;
 
-    TreeViewService.Init(Init).then(Init);
-
-  /*  Init();*/
-
-    model.node= TreeViewService.promise.GetView();
-    function Init() {
-
-      model.node= TreeViewService.GetView();
-
-    }
-
-
+    model.current= TreeViewService.Current();
 
     model.textLimit = 15;
 

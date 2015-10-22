@@ -31,8 +31,17 @@ angular.module('starter', ['ionic',"LocalStorageModule", 'starter.controllers', 
 
 
 
-
     $stateProvider.state('home', {
+      url: '/',
+      views: {
+        'home': {
+          templateUrl: 'templates/tree.html',
+          controller: "TreeCtrl"
+        }
+      }
+
+    });
+  /*  $stateProvider.state('home', {
       url: '/',
       views: {
         'home': {
@@ -41,7 +50,7 @@ angular.module('starter', ['ionic',"LocalStorageModule", 'starter.controllers', 
         }
       }
 
-    });
+    });*/
 
     $stateProvider.state('tree', {
       url: '/tree',
