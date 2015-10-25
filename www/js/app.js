@@ -35,8 +35,8 @@ angular.module('starter', ['ionic',"LocalStorageModule", 'starter.controllers', 
       url: '/',
       views: {
         'home': {
-          templateUrl: 'templates/tree.html',
-          controller: "TreeCtrl"
+          templateUrl: 'templates/home.html',
+          controller: "HomeCtrl"
         }
       }
 

@@ -6,10 +6,17 @@ var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
 var sh = require('shelljs');
+var run = require('gulp-run');
+
 
 var paths = {
   sass: ['./scss/**/*.scss']
 };
+
+gulp.task("browserify", function () {
+  run('browserify -r ./TreeNode.js:jsx.TreeNode > ./www/lib/js-extensions.js').exec();
+  /* .pipe(gulp.dest('output'))*/
+})
 
 gulp.task('default', ['sass']);
 

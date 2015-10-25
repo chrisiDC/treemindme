@@ -49,12 +49,13 @@
 </ion-header-bar>-->
 
 <ion-tabs class="tabs-icon-top">
-  <ion-tab title="home" href="#/"  icon="icon ion-home">
+  <ion-tab title="home" href="#/" icon="icon ion-home">
     <ion-header-bar align-title="left" class="bar-positive">
       <div class="buttons">
         <button class="button" ng-click="doSomething()">Left Button</button>
       </div>
       <h1 class="title">Title!</h1>
+
       <div class="buttons">
         <button class="button">Right Button</button>
       </div>
@@ -63,14 +64,19 @@
   </ion-tab>
   <ion-tab title="tree" href="#/tree" icon="icon ion-heart">
 
-    <ion-header-bar class="bar-positive">
+
+    <div class="bar bar-header bar-positive">
       <div class="button-bar">
         <a class="button" ng-click="openModal()">Add</a>
-        <a class="button"  ng-click="Save()">Save</a>
-        <a class="button"  ng-click="MoveToParentNode()">Up</a>
+        <a class="button" ng-click="Save()">Save</a>
+        <a class="button" ng-if="hasParent() === true" ng-click="MoveToParentNode()">Up</a>
+        <a class="button" ng-if="hasParent() === true" ng-click="MoveToRoot()">Root</a>
       </div>
+    </div>
+    <div class="bar bar-subheader bar-positive">
+      <h2 class="title">{{model.valuePath}}</h2>
+    </div>
 
-    </ion-header-bar>
 
     <ion-nav-view name="tree"></ion-nav-view>
   </ion-tab>

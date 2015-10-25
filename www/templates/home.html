@@ -1,21 +1,53 @@
-
 <ion-view view-title="home">
 
-  <ion-content>
+  <ion-content class="has-header" scroll="false">
 
+    <form name="addToInbox" novalidate>
+      <div class="row">
+        <div class="col">
+          <label class="item item-input">
+            <textarea rows="5" type="text" name="text" placeholder="Type new entry" ng-model="model.text"
+                      required></textarea>
+          </label>
+        </div>
 
-    <label class="item item-input">
-      <input type="text" placeholder="Type new entry">
-    </label>
-    <label class="item item-input item-select">
-      <div class="input-label">
-        Move To
       </div>
-      <select>
-        <option>Blue</option>
-        <option selected>Green</option>
-        <option>Red</option>
-      </select>
-    </label>
+      <div class="row">
+        <div class="col">
+          <div class="button-bar bar-positive">
+
+            <button class="button" ng-click="model.Save()" ng-disabled="addToInbox.text.$invalid">Save</button>
+
+          </div>
+        </div>
+
+      </div>
+    <!--  <ion-list can-swipe="false" show-reorder="false">
+        <ion-item>
+          <label class="item item-input">
+            <textarea rows="5" type="text" name="text" placeholder="Type new entry" ng-model="model.text"
+                      required></textarea>
+          </label>
+
+        </ion-item>
+        &lt;!&ndash;  <div class="item">
+            &lt;!&ndash;<span style="color:red" ng-show="addToInbox.text.$dirty && addToInbox.text.$invalid"></span>&ndash;&gt;
+            &lt;!&ndash;<span ng-show="addToInbox.text.$pristine === false && addToInbox.text.$error.required">Enter text</span>&ndash;&gt;
+          </div>&ndash;&gt;
+        <ion-item>
+
+          <div class="button-bar bar-positive">
+
+            <a class="button" ng-click="Save()" ng-disabled="addToInbox.text.$invalid">Save</a>
+
+          </div>
+
+        </ion-item>
+
+
+      </ion-list>-->
+    </form>
+
+
   </ion-content>
 </ion-view>

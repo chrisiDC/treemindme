@@ -1,110 +1,142 @@
 angular.module('starter.services', [])
 
-  .factory('TreeViewService', function ($http, localStorageService, _, TreeNode, CircularJSON) {
+  .factory('TreeViewService', function ($http, $q, localStorageService, _, TreeNode, CircularJSON) {
     var self = this;
 
-    self.root = new TreeNode({value: "root"});
-    self.key = 0;
+    this.NODETYPES=
+    {
+      VALUE:1,
+      CONTAINER:2,
+      SPEECH:3
+    };
+    this.NODEIDS=
+    {
+      root:0,
+      inbox:1
+    };
 
-    self.current = {node:self.root};
+    this.root = new TreeNode({value: "root",constant:true},this.NODEIDS.root);
 
-    var storedNodes = localStorageService.get('tree');
+    this.root.addChild(new TreeNode({value:"inbox",constant:true},this.NODEIDS.inbox));
 
-    if (storedNodes === null) {
-      {
-        $http({
-          method: 'GET',
-          url: '/empty.txt'
-        }).then(function (response) {
 
-          var parsed = CircularJSON.parse(response.data);
-          AddNodes(CircularJSON.parse(response.data));
+    this.current = this.root;
+    this.initialized = false;
 
-        });
+
+    this.init = function () {
+
+      var deferred = $q.defer();
+      var storedNodes = localStorageService.get('tree');
+
+
+      if (storedNodes === null) {
+
+        /* $http({
+         method: 'GET',
+         url: '/empty.json'
+         }).then(function (response) {
+
+         self.root = new TreeNode().fromJSON(null, response.data);//todo: use static method!
+         self.current = self.root;
+         deferred.resolve();
+         });*/
+
+        this.initialized = true;
+        deferred.resolve();
       }
+      else {
+
+        var parsed = CircularJSON.parse(storedNodes);
+        this.current = TreeNode.fromJSON(parsed,null);
+        this.root = this.current;
+        this.initialized = true;
+        deferred.resolve();
+      }
+
+      return deferred.promise;
+
+
     }
-    else {
+    /* function AddNodes(jsonData) {
 
-      var parsed = CircularJSON.parse(storedNodes);
-      AddNodes( CircularJSON.parse(storedNodes));
-      var x = 1;
 
-    }
-
-    function AddNodes(jsonData) {
-
-      var nodes = new TreeNode().fromJSON(self.root, jsonData);//todo: use static method!
-      _.forEach(nodes.children, function (node) {
-        self.current.node.children.push(node);
-      });
-    }
+     _.forEach(nodes, function (node) {
+     self.current.node.children.push(node);
+     });
+     }*/
 
     return {
-      /*  Init: function (viewRefreshHandler) {
-       if (viewRefreshHandler) self.viewRefreshHandler = viewRefreshHandler;
-       var storedNodes = localStorageService.get('tree');
-
-       if (storedNodes === null) {
-       {
-       $http({
-       method: 'GET',
-       url: '/empty.json'
-       }).then(function (response) {
-
-       self.root = new TreeNode().fromJSON(null, response.data);//todo: use static method!
-       self.current = self.root;
-       deferred.resolve();
-       });
-       }
-       }
-       else {
-
-       var parsed = CircularJSON.parse(storedNodes);
-       self.root = new TreeNode().fromJSON(null, parsed);//todo: use static method!
-       self.current = self.root;
-       deferred.resolve();
-       }
-
-       return deferred.promise;
-       },*/
+      NODETYPES:self.NODETYPES,
       Save: function () {
         localStorageService.set('tree', CircularJSON.stringify(self.root));
       },
       Remove: function (key) {
         self.root.removeChildByKey(key);
 
-        /*        self.viewRefreshHandler();*/
-
+      },
+      MoveToRoot: function () {
+        self.current = self.root;
       },
       MoveToNode: function (node) {
 
-        self.current.node = self.root.find(node.key);
+        self.current = TreeNode.findNode(node.key,self.root);
 
 
       },
       MoveToParentNode: function () {
 
-        self.current.node = self.current.node.parent;
+        self.current = self.current.parent;
 
-        /*   self.viewRefreshHandler();*/
 
       },
-      AddNode: function (text) {
+      AddNode: function (text,type,referencedNode) {
 
-        var node = new TreeNode({value: text});
-        self.current.node.addChild(node);
 
-        /* self.viewRefreshHandler();*/
+        var node = new TreeNode({value: text,type:type});
+        if (referencedNode == null) self.current.addChild(node);
+        else referencedNode.addChild(node);
+
       },
       Current: function () {
-        return self.current;
+        var deferred = $q.defer();
+
+        if (self.initialized)  deferred.resolve(self.current);
+        else {
+          self.init().then(function () {
+            deferred.resolve(self.current)
+          });
+        }
+        return deferred.promise;
+
       },
       HasParent: function () {
-        return self.current.node.parent != null;
+        var hasParent = self.current != null && self.current.key != 0;// (self.current != null && self.current.parent != null);
+        return hasParent;
       },
+      GetValuePath: function () {
+        var items = self.current.PathByValue();
+        var path = "home";
+        var depth=0;
+        _.forEach(items,function(item)
+        {
+          if (depth !== 0)
+          {
+            path+="/"+item.data.value
 
+          }
+
+          depth++;
+        });
+        return path;
+      },
+      GetInbox:function()
+      {
+        return TreeNode.findNode(self.NODEIDS.inbox,self.root);
+      }
 
 
     }
   });
+
 

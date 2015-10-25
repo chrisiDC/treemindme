@@ -3,8 +3,14 @@ angular.module('starter.controllers', [])
 
   .controller('BaseCtrl', function ($scope, $ionicModal, $ionicPopup, TreeViewService) {
 
-
+    var model = {};
+    $scope.model = model;
     $scope.modalData = {};
+    model.valuePath = "";
+    model.nodeText = "";
+    model.textLimit = 15;
+    var editNode = null;
+
 
     $ionicModal.fromTemplateUrl('templates/AddNode.html', function (modal) {
       $scope.addModal = modal;
@@ -36,28 +42,49 @@ angular.module('starter.controllers', [])
     });
 
     $scope.hasParent = function () {
-      return TreeViewService.HasParent();
+      var hasParent= TreeViewService.HasParent();
+      return hasParent;
     }
 
+
+    $scope.MoveToRoot = function () {
+      TreeViewService.MoveToRoot();
+      model.valuePath = TreeViewService.GetValuePath();
+      TreeViewService.Current().then(function(current)
+      {
+        model.current = current;
+
+      });
+    }
 
     $scope.MoveToParentNode = function () {
 
       TreeViewService.MoveToParentNode();
+      model.valuePath = TreeViewService.GetValuePath();
+      TreeViewService.Current().then(function(current)
+      {
+        model.current = current;
+      });
 
     }
 
-  })
-  .controller('TreeCtrl', function ($scope, _, $ionicPopup, TreeNode,TreeViewService) {
+    $scope.MoveToNode = function (node) {
+      TreeViewService.MoveToNode(node);
+      model.valuePath = TreeViewService.GetValuePath();
+      TreeViewService.Current().then(function(current)
+      {
+        model.current = current;
+      });
 
-    var model = {};
-    $scope.model = model;
-    model.nodeText = "";
+    }
 
-    var editNode = null;
 
-    model.current= TreeViewService.Current();
 
-    model.textLimit = 15;
+    TreeViewService.Current().then(function(current)
+    {
+      model.current = current;
+      model.valuePath = TreeViewService.GetValuePath();
+    });
 
 
     $scope.IsEditNode = function (nodeId) {
@@ -68,11 +95,86 @@ angular.module('starter.controllers', [])
       editNode = nodeId;
     }
 
-    $scope.MoveToNode = function (node) {
-      TreeViewService.MoveToNode(node);
 
+
+
+    $scope.PopupDelete = function (key) {
+      var confirmPopup = $ionicPopup.confirm({
+        title: 'Consume Ice Cream',
+        template: 'Are you sure you want to eat this ice cream?'
+      });
+      confirmPopup.then(function (res) {
+        if (res) {
+          TreeViewService.Remove(key);
+
+        }
+      });
+    }
+
+  })
+
+  .controller("AddNodeCtrl", function ($scope, TreeViewService) {
+    $scope.model ={};
+    $scope.model.choice=  TreeViewService.NODETYPES.VALUE;
+    $scope.model.NODETYPES = TreeViewService.NODETYPES;
+    $scope.AddNode = function (nodeText) {
+
+      TreeViewService.AddNode(nodeText,$scope.model.choice);
+      $scope.addModal.hide();
+    }
+  })
+
+  .controller("HomeCtrl", function ($scope,$timeout, $ionicLoading,TreeViewService) {
+
+    var model = {};
+    $scope.model = model;
+
+    TreeViewService.Current().then(function(current)
+    {
+      model.root = current;
+    });
+
+    $scope.model.Save=function()
+    {
+
+
+      TreeViewService.AddNode(model.text,TreeViewService.NODETYPES.VALUE,TreeViewService.GetInbox());
+      model.text="";
+      $timeout(function()
+      {
+        $ionicLoading.hide();
+      },500);
+      $ionicLoading.show({
+        template: "Saving..."
+      });
 
     }
+
+  })
+  .controller('TreeCtrl', function ($scope, _, $ionicPopup, TreeViewService) {
+
+ /*   var model = $scope.model;
+
+    model.nodeText = "";
+    model.textLimit = 15;
+    var editNode = null;
+
+
+    TreeViewService.Current().then(function(current)
+    {
+      model.current = current;
+    });
+
+
+    $scope.IsEditNode = function (nodeId) {
+      return editNode === nodeId;
+    }
+
+    $scope.SetEditNode = function (nodeId) {
+      editNode = nodeId;
+    }
+
+
 
 
     $scope.PopupDelete = function (key) {
@@ -100,16 +202,15 @@ angular.module('starter.controllers', [])
 
   .controller("HomeCtrl", function ($scope, TreeViewService) {
 
-    TreeViewService.GetRoot().then(function(root)
+    var model = {};
+    $scope.model = model;
+
+    TreeViewService.Current().then(function(current)
     {
-      $scope.node = root;
-    });
+      model.root = current;
+    });*/
 
-    $scope.AddNode = function (nodeText) {
 
-      TreeViewService.AddNode(nodeText);
-      $scope.addModal.hide();
-    }
   })
 
 
