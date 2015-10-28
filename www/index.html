@@ -5,7 +5,8 @@
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
   <title></title>
 
-  <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+  <link href="lib/ionic/release/css/ionic.css" rel="stylesheet">
+  <link href="lib/ion-tree-list/ion-tree-list.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
 
   <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
@@ -13,7 +14,10 @@
   -->
 
   <!-- ionic/angularjs js -->
-  <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+
+
+  <script src="lib/ionic/release/js/ionic.bundle.js"></script>
 
   <script src="lib/angular-local-storage/dist/angular-local-storage.min.js"></script>
 
@@ -28,8 +32,13 @@
   <!-- your app's js -->
   <script src="js/app.js"></script>
   <script src="js/controllers.js"></script>
+  <script src="js/selectnodecontroller.js"></script>
+
   <script src="js/services.js"></script>
 
+  <script src="lib/ion-tree-list/ion-tree-list.js"></script>
+
+<!--  <script src="js/selectnodecontroller.js"></script>-->
 
 </head>
 <body ng-app="starter" ng-controller="BaseCtrl">
@@ -71,13 +80,27 @@
 
         <ion-nav-view name="tree"></ion-nav-view>
       </ion-tab>
+      <ion-tab title="selectnode" href="#/selectnode" icon="icon ion-heart" hidden="true">
+
+
+     <!--   <div class="bar bar-header bar-positive">
+          <div class="button-bar">
+            <a class="button" ng-if="hasParent() === true" ng-click="MoveToParentNode()">Up</a>
+            <a class="button" ng-if="hasParent() === true" ng-click="MoveToRoot()">Root</a>
+          </div>
+        </div>
+        <div class="bar bar-subheader bar-positive">
+          <h2 class="title">{{model.valuePath}}</h2>
+        </div>-->
+
+        <ion-nav-view name="selectnode"></ion-nav-view>
+      </ion-tab>
       <ion-tab title="Settings" href="#/settings" icon="icon ion-gear-b">
 
         <ion-nav-view name="Settings"></ion-nav-view>
       </ion-tab>
 
     </ion-tabs>
-
 
 
 

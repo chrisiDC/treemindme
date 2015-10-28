@@ -1,5 +1,5 @@
 
-angular.module('starter', ['ionic',"LocalStorageModule", 'starter.controllers', 'starter.services'])
+angular.module('starter', ['ionic',"LocalStorageModule", 'ion-tree-list','starter.controllers', 'starter.services'])
 
   .run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
@@ -41,16 +41,16 @@ angular.module('starter', ['ionic',"LocalStorageModule", 'starter.controllers', 
       }
 
     });
-  /*  $stateProvider.state('home', {
-      url: '/',
+    $stateProvider.state('selectnode', {
+      url: '/selectnode',
       views: {
-        'home': {
-          templateUrl: 'templates/home.html',
-          controller: "HomeCtrl"
+        'selectnode': {
+          templateUrl: 'templates/selectnode.html',
+          controller: "SelectNodeCtrl"
         }
       }
 
-    });*/
+    });
 
     $stateProvider.state('tree', {
       url: '/tree',

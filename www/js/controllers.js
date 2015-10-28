@@ -9,6 +9,7 @@ angular.module('starter.controllers', [])
     model.valuePath = "";
     model.nodeText = "";
     model.textLimit = 15;
+    model.Editable = true;
     var editNode = null;
 
 

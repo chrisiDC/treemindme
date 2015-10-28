@@ -1,10 +1,15 @@
-<ion-view view-title="tree">
+<ion-view view-title="selectnode">
 
 
-  <ion-content  class="has-header has-subheader">
+  <ion-content  class="has-header has-subheader" >
 
+    <div class="row" >
+      <div class="col">
+      <ion-tree-list items="tasks" template-url="/templates/treenode.html"></ion-tree-list>
 
-    <ul class="list">
+      </div>
+    </div>
+   <!-- <ul class="list">
 
       <li class="row" ng-show="!IsEditNode(item.key)" ng-repeat-start="item in model.current.children">
 
@@ -41,31 +46,6 @@
       </li>
 
 
-      <!--       <div class="list">
-
-
-
-                 <label class="item item-input">
-
-                 </label>
-
-
-
-
-             </div>
-     -->
-      <!--    <div class="col col-75">
-
-            <label class="item item-input">
-              <input type="text" placeholder="" ng-model="item.data.value">
-            </label>
-
-          </div>
-          <div class="col">
-            <button class="button" ng-click="SetEditNode(null)">Save</button>
-          </div>
-  -->
-
-    </ul>
+    </ul>-->
   </ion-content>
 </ion-view>
