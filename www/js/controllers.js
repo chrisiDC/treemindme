@@ -20,7 +20,6 @@ angular.module('starter.controllers', [])
       focusFirstInput: true
     });
 
-
     $scope.$on('modal.hidden', function () {
       $scope.modalData.nodeText = "";
     });
