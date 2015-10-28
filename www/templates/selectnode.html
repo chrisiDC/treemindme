@@ -1,51 +1,85 @@
+<script type="text/ng-template" id="nodes">
+
+
+    {{item.data.value}}
+
+    <ol class="">
+
+      <li ng-repeat="item in item.children" ng-include="'nodes'"></li>
+
+
+    </ol>
+
+</script>
+
 <ion-view view-title="selectnode">
 
 
-  <ion-content  class="has-header has-subheader" >
 
-    <div class="row" >
-      <div class="col">
-      <ion-tree-list items="tasks" template-url="/templates/treenode.html"></ion-tree-list>
+  <ion-content class="has-header has-subheader">
 
+    <ion-list>
+      <div ng-repeat="group in model.current.children">
+
+        <ion-item class="item-stable"
+                  ng-click="toggleGroup(group)"
+                  ng-class="{active: isGroupShown(group)}">
+          <i class="icon" ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'"></i>
+          &nbsp;
+           {{group.data.value}}
+        </ion-item>
+        <ion-item class="item-accordion"
+                  ng-repeat="item in group.children"
+                  ng-show="isGroupShown(group)">
+          {{item.data.value}}
+        </ion-item>
       </div>
-    </div>
-   <!-- <ul class="list">
+    </ion-list>
 
-      <li class="row" ng-show="!IsEditNode(item.key)" ng-repeat-start="item in model.current.children">
-
-        <div class="col col-10 col-left" >
-          <a ng-if="item.data.type !== 1" class="button icon-left ion-chevron-right button-clear button-stable" ng-click="MoveToNode(item)"></a>
-
-        </div>
-        <div class="col col-50 col-center">
-          {{ item.data.value | limitTo:model.textLimit }}
-          {{item.data.value.length > model.textLimit?"...":""}}
-        </div>
-        <div class="col col-40">
-          <div class="button-bar" ng-if="item.data.constant !== true && model.Editable">
-            <a class="button button-small icon ion-edit" ng-click="SetEditNode(item.key)"></a>
-            <a class="button button-small icon ion-close-circled" ng-click="PopupDelete(item.key)"></a>
-
-          </div>
-
-        </div>
-
-      </li>
-      <li class="" ng-show="IsEditNode(item.key)" ng-repeat-end>
-
-
-        <label class="item item-input">
-          <textarea rows="5" ng-model="item.data.value"></textarea>
-        </label>
-        <label class="item">
-          <button class="button button-block icon ion-checkmark-round  button-stable"
-                  ng-click="SetEditNode(null)"></button>
-
-        </label>
-
-      </li>
-
-
-    </ul>-->
   </ion-content>
+
+
 </ion-view>
+<!--<script type="text/ng-template" id="nodes">
+
+  <li class="" nav-clear menu-close ng-click="toggleSubmenu()">
+    {{item.data.value}}
+    <ul class="">
+
+      <span ng-repeat="item in item.children" ng-include="'nodes'"></span>
+
+
+    </ul>
+  </li>
+</script>
+
+<ion-view view-title="selectnode">
+
+
+
+    <ion-content  class="c" >
+
+      <ul class="">
+
+        <div ng-repeat="item in model.current.children" ng-include="'nodes'"></div>
+      </ul>
+
+
+
+    </ion-content>
+
+
+</ion-view>-->
+
+
+<html ng-app="ionicApp">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Ionic Accordion</title>
+
+  <link href="//code.ionicframework.com/nightly/css/ionic.css" rel="stylesheet">
+  <script src="//code.ionicframework.com/nightly/js/ionic.bundle.js"></script>
+
+</head>
+
