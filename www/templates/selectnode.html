@@ -1,10 +1,26 @@
 <script type="text/ng-template" id="nodes">
 
-  <ion-item class="item-stable" ng-show="isVisible(node)" ng-init="node.collapsed = false"
+  <ul class="list" class="item-stable" ng-show="isVisible(node)" ng-init="node.collapsed = false"
             ng-if="node.data.type === model.NODETYPES.CONTAINER">
 
-    <div class="row">
-      <div class="col">
+    <li class="item">
+
+
+      <label class="item item-input">
+        <a class="button button-clear" ng-if="hasChildContainer(node)" ng-click="toggleNode(node)"><i class="icon"
+                                                                                                      ng-class="node.collapsed ? 'ion-chevron-up' : 'ion-chevron-right'"></i>
+        </a>
+        <button class="button button-positive" style="float:right">
+          Select
+        </button>
+        <span class="input-label">{{node.data.value}}</span>
+
+
+      </label>
+    <!--  <label style="padding-bottom: 1px !important"></label>-->
+
+   <!-- <div class="row">
+      <div class="col-20">
         <button class="button button-positive" ng-if="hasChildContainer(node)" ng-click="toggleNode(node)"><i class="icon"
                                                                                ng-class="node.collapsed ? 'ion-minus' : 'ion-plus'"></i>
         </button>
@@ -12,18 +28,14 @@
       <div class="col">
         {{node.data.value}}
       </div>
-    </div>
+    </div>-->
 
+    </li>
 
+    <li class="item" ng-show="true" ng-repeat="node in node.children" ng-include="'nodes'">
 
-    <ion-list ng-show="true">
-
-      <div ng-repeat="node in node.children" ng-include="'nodes'">
-
-
-      </div>
-    </ion-list>
-  </ion-item>
+    </li>
+  </ul>
 
 </script>
 
@@ -32,12 +44,10 @@
 
   <ion-content class="has-header has-subheader">
 
-    <ion-list>
-      <div ng-repeat="node in model.current.children" ng-include="'nodes'">
 
-
-      </div>
-    </ion-list>
+    <ul class="list">
+      <li class="item" ng-repeat="node in model.root.children" ng-include="'nodes'"></li>
+    </ul>
 
   </ion-content>
 

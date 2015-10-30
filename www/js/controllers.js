@@ -97,6 +97,7 @@ angular.module('starter.controllers', [])
 
     TreeViewService.Current().then(function(current)
     {
+      model.root = current;
       model.current = current;
       model.valuePath = TreeViewService.GetValuePath();
       model.NODETYPES = TreeViewService.NODETYPES;

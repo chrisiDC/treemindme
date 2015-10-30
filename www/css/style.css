@@ -1,15 +1,28 @@
 /*
-.list .item.item-accordion {
-  line-height: 38px;
-  padding-top: 0;
-  padding-bottom: 0;
-  transition: 0.09s all linear;
+li:last-child {
+  border-bottom: none;
 }
-.list .item.item-accordion.ng-hide {
-  line-height: 0px;
+
+li:first-child {
+  border-top: none;
+  font-weight: bold;
 }
-.list .item.item-accordion.ng-hide-add,
-.list .item.item-accordion.ng-hide-remove {
-  display: block !important;
+li:nth-child(even) {
+
+  background-color: gray;
 }
 */
+
+li
+{
+  border-style:none !important;
+}
+
+ul li{
+  padding-left: 50px !important;
+}
+
+
+/*ul li:nth-child(n+5) {
+  background:#ff0000;
+}*/
