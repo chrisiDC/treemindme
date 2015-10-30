@@ -25,16 +25,20 @@ angular.module('starter.controllers', [])
       $scope.modalData.nodeText = "";
     });
 
-    $scope.toggleGroup = function(group) {
-      if ($scope.isGroupShown(group)) {
-        $scope.shownGroup = null;
-      } else {
-        $scope.shownGroup = group;
-      }
+    $scope.toggleNode = function(node) {
+      node.collapsed = !node.collapsed;
+     /* _.forEach(node.children,function(child)
+      {
+        child.show = true;
+      });*/
+
     };
-    $scope.isGroupShown = function(group) {
-      return $scope.shownGroup === group;
-    };
+
+    $scope.isVisible=function(node)
+    {
+
+      return node.data.constant === true || (node.parent != null && node.parent.collapsed);
+    }
 
     $scope.Save = function () {
       TreeViewService.Save();
@@ -95,9 +99,16 @@ angular.module('starter.controllers', [])
     {
       model.current = current;
       model.valuePath = TreeViewService.GetValuePath();
+      model.NODETYPES = TreeViewService.NODETYPES;
     });
 
 
+    $scope.hasChildContainer=function(node)
+    {
+      return _.findIndex(node.children, function(node) {
+        return node.data.type === $scope.model.NODETYPES.CONTAINER;
+      }) !== -1;
+    }
     $scope.IsEditNode = function (nodeId) {
       return editNode === nodeId;
     }

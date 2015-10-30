@@ -1,38 +1,41 @@
 <script type="text/ng-template" id="nodes">
 
+  <ion-item class="item-stable" ng-show="isVisible(node)" ng-init="node.collapsed = false"
+            ng-if="node.data.type === model.NODETYPES.CONTAINER">
 
-    {{item.data.value}}
+    <div class="row">
+      <div class="col">
+        <button class="button button-positive" ng-if="hasChildContainer(node)" ng-click="toggleNode(node)"><i class="icon"
+                                                                               ng-class="node.collapsed ? 'ion-minus' : 'ion-plus'"></i>
+        </button>
+      </div>
+      <div class="col">
+        {{node.data.value}}
+      </div>
+    </div>
 
-    <ol class="">
-
-      <li ng-repeat="item in item.children" ng-include="'nodes'"></li>
 
 
-    </ol>
+    <ion-list ng-show="true">
+
+      <div ng-repeat="node in node.children" ng-include="'nodes'">
+
+
+      </div>
+    </ion-list>
+  </ion-item>
 
 </script>
 
 <ion-view view-title="selectnode">
 
 
-
   <ion-content class="has-header has-subheader">
 
     <ion-list>
-      <div ng-repeat="group in model.current.children">
+      <div ng-repeat="node in model.current.children" ng-include="'nodes'">
 
-        <ion-item class="item-stable"
-                  ng-click="toggleGroup(group)"
-                  ng-class="{active: isGroupShown(group)}">
-          <i class="icon" ng-class="isGroupShown(group) ? 'ion-minus' : 'ion-plus'"></i>
-          &nbsp;
-           {{group.data.value}}
-        </ion-item>
-        <ion-item class="item-accordion"
-                  ng-repeat="item in group.children"
-                  ng-show="isGroupShown(group)">
-          {{item.data.value}}
-        </ion-item>
+
       </div>
     </ion-list>
 
@@ -46,7 +49,7 @@
     {{item.data.value}}
     <ul class="">
 
-      <span ng-repeat="item in item.children" ng-include="'nodes'"></span>
+      <span ng-repeat="item in item.noderen" ng-include="'nodes'"></span>
 
 
     </ul>
@@ -61,7 +64,7 @@
 
       <ul class="">
 
-        <div ng-repeat="item in model.current.children" ng-include="'nodes'"></div>
+        <div ng-repeat="item in model.current.noderen" ng-include="'nodes'"></div>
       </ul>
 
 
@@ -71,15 +74,4 @@
 
 </ion-view>-->
 
-
-<html ng-app="ionicApp">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <title>Ionic Accordion</title>
-
-  <link href="//code.ionicframework.com/nightly/css/ionic.css" rel="stylesheet">
-  <script src="//code.ionicframework.com/nightly/js/ionic.bundle.js"></script>
-
-</head>
 

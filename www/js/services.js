@@ -15,9 +15,10 @@ angular.module('starter.services', [])
       inbox:1
     };
 
-    this.root = new TreeNode({value: "root",constant:true},this.NODEIDS.root);
 
-    this.root.addChild(new TreeNode({value:"inbox",constant:true},this.NODEIDS.inbox));
+    this.root = new TreeNode({type:this.NODETYPES.CONTAINER, value: "root",constant:true},this.NODEIDS.root,{show:true});
+
+    this.root.addChild(new TreeNode({type:this.NODETYPES.CONTAINER,value:"inbox",constant:true},this.NODEIDS.inbox,{show:true}));
 
 
     this.current = this.root;
@@ -48,7 +49,9 @@ angular.module('starter.services', [])
       else {
 
         var parsed = CircularJSON.parse(storedNodes);
-        this.current = TreeNode.fromJSON(parsed,null);
+        //var root = _.assign(new TreeNode(),parsed);
+        //root.children =[];
+        this.current = TreeNode.fromJSON(parsed,new TreeNode({},0));
         this.root = this.current;
         this.initialized = true;
         deferred.resolve();
@@ -94,8 +97,12 @@ angular.module('starter.services', [])
 
 
         var node = new TreeNode({value: text,type:type});
+
+
         if (referencedNode == null) self.current.addChild(node);
         else referencedNode.addChild(node);
+
+        node.show = !(node.parent != null && node.parent.key !== self.NODEIDS.root);
 
       },
       Current: function () {

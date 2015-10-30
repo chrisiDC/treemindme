@@ -47,18 +47,25 @@ TreeNode.findNode=function(key, rootNode) {
 }
 
 
-function TreeNode(data,uniqueId) {
+function TreeNode(data,uniqueId,addProperties) {
 
+  var self = this;
   if (uniqueId != null) this.key = uniqueId;
   else this.key = guid();
   this.data = data;
   this.children = [];
   this.parent = null;
+  if (addProperties != null) {
+    _.forIn(addProperties, function (value, key) {
+      self[key] = value;
+    });
+  }
 
 
 }
 
 
+/*
 TreeNode.fromJSON=function(jsonRoot,treeNodeRoot)
 {
   var currentNode=treeNodeRoot;
@@ -77,6 +84,7 @@ TreeNode.fromJSON=function(jsonRoot,treeNodeRoot)
   return currentNode;
 
 }
+*/
 
 
 
@@ -151,6 +159,33 @@ TreeNode.prototype.PathByValue = function () {
 
 
   return items.reverse();
+}
+
+TreeNode.prototype.Create=function()
+{
+  return _.create(TreeNode.prototype);
+}
+
+
+function deepMap(obj, iterator, context) {
+  return _.transform(obj, function(result, val, key) {
+    result[key] = _.isObject(val) /*&& !_.isDate(val)*/ ?
+      deepMap(val, iterator, context) :
+      iterator.call(context, val, key, obj);
+  });
+}
+
+/*_.mixin({
+  deepMap: deepMap
+});*/
+
+TreeNode.fromJSON=function(jsonParsed)
+{
+  var x = deepMap(jsonParsed);
+  var node = TreeNode.Create();
+  _.assign(node,jsonParsed);
+
+
 }
 
 
