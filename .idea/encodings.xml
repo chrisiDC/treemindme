@@ -8,21 +8,24 @@
     <file url="file://$PROJECT_DIR$/platforms/android/project.properties" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/plugins/cordova-plugin-statusbar/src/windows/StatusBarProxy.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/todo.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/app/addnode/controller.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/app/addnode/template.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/app/app.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/app/home/controller.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/app/home/template.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/app/select/controller.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/app/select/template.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/app/shared/base.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/app/shared/services/treeview.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/app/shared/templates/tabs.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/app/shared/templates/tree.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/app/shared/templates/treenode.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/app/tree/controller.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/css/style.css" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/example.json" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/www/js/app.js" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/www/js/controllers.js" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/www/js/selectnodecontroller.js" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/www/js/services.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/index.html.bak" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/lib/ion-tree-list/ion-tree-list.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/lib/ion-tree-list/ion-tree-list.tmpl.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/node.json" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/www/templates/AddNode.html" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/www/templates/home.html" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/www/templates/selectnode.html" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/www/templates/selectnode.html.bak" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/www/templates/tabs.html" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/www/templates/tree.html" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/www/templates/treenode.html" charset="UTF-8" />
   </component>
 </project>

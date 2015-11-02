@@ -1,5 +1,9 @@
 
-angular.module('starter', ['ionic',"LocalStorageModule", 'ion-tree-list','starter.controllers', 'starter.services'])
+
+angular.module('app.services', []);
+angular.module('app.controllers', [])
+
+angular.module('app', ['ionic',"LocalStorageModule", 'ion-tree-list','app.controllers', 'app.services'])
 
   .run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
@@ -22,6 +26,9 @@ angular.module('starter', ['ionic',"LocalStorageModule", 'ion-tree-list','starte
     .constant("CircularJSON",CircularJSON)
   .config(function ($stateProvider, $urlRouterProvider) {
 
+
+
+
     // Ionic uses AngularUI Router which uses the concept of states
     // Learn more here: https://github.com/angular-ui/ui-router
     // Set up the various states which the app can be in.
@@ -32,8 +39,8 @@ angular.module('starter', ['ionic',"LocalStorageModule", 'ion-tree-list','starte
       .state('tab', {
         url: '/tab',
         abstract: true,
-        controller:"BaseCtrl",
-        templateUrl: 'templates/tabs.html'
+        controller:"app.controllers.base",
+        templateUrl: 'app/shared/templates/tabs.html'
       })
 
       // Each tab has its own nav history stack:
@@ -42,8 +49,8 @@ angular.module('starter', ['ionic',"LocalStorageModule", 'ion-tree-list','starte
         url: '/home',
         views: {
           'tab-home': {
-            templateUrl: 'templates/home.html',
-            controller: 'HomeCtrl'
+            templateUrl: 'app/home/template.html',
+            controller: 'app.controllers.home'
           }
         }
       })
@@ -52,8 +59,8 @@ angular.module('starter', ['ionic',"LocalStorageModule", 'ion-tree-list','starte
         url: '/tree',
         views: {
           'tab-tree': {
-            templateUrl: 'templates/tree.html',
-            controller: 'TreeCtrl'
+            templateUrl: 'app/shared/templates/tree.html',
+            controller: 'app.controllers.tree'
           }
         }
       })
@@ -61,8 +68,8 @@ angular.module('starter', ['ionic',"LocalStorageModule", 'ion-tree-list','starte
         url: '/select',
         views: {
           'tab-select': {
-            templateUrl: 'templates/tree.html',
-            controller: 'SelectNodeCtrl'
+            templateUrl: 'app/shared/templates/tree.html',
+            controller: 'app.controller.select'
           }
         }
       })

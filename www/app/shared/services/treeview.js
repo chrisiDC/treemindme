@@ -1,5 +1,4 @@
-angular.module('starter.services', [])
-
+angular.module('app.services')
   .factory('TreeViewService', function ($http, $q, localStorageService, _, TreeNode, CircularJSON) {
     var self = this;
 
