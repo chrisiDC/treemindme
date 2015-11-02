@@ -26,57 +26,51 @@ angular.module('starter', ['ionic',"LocalStorageModule", 'ion-tree-list','starte
     // Learn more here: https://github.com/angular-ui/ui-router
     // Set up the various states which the app can be in.
     // Each state's controller can be found in controllers.js
+    $stateProvider
 
+      // setup an abstract state for the tabs directive
+      .state('tab', {
+        url: '/tab',
+        abstract: true,
+        controller:"BaseCtrl",
+        templateUrl: 'templates/tabs.html'
+      })
 
+      // Each tab has its own nav history stack:
 
-
-
-    $stateProvider.state('app', {
-      abstract:true,
-      controller:"BaseCtrl",
-      url: '/app',
-      views: {
-        app: {
-          template: '<ion-nav-view></ion-nav-view>'
+      .state('tab.home', {
+        url: '/home',
+        views: {
+          'tab-home': {
+            templateUrl: 'templates/home.html',
+            controller: 'HomeCtrl'
+          }
         }
-      }
+      })
 
-    });
-
-    $stateProvider.state('app.home', {
-      url: '/',
-      views: {
-        'home': {
-          templateUrl: 'templates/home.html',
-          controller: "HomeCtrl"
+      .state('tab.tree', {
+        url: '/tree',
+        views: {
+          'tab-tree': {
+            templateUrl: 'templates/tree.html',
+            controller: 'TreeCtrl'
+          }
         }
-      }
-
-    });
-    $stateProvider.state('app.selectnode', {
-      url: '/app/selectnode',
-      views: {
-        'selectnode': {
-          templateUrl: 'templates/tree.html',
-          controller: "SelectNodeCtrl"
+      })
+      .state('tab.select', {
+        url: '/select',
+        views: {
+          'tab-select': {
+            templateUrl: 'templates/tree.html',
+            controller: 'SelectNodeCtrl'
+          }
         }
-      }
+      })
 
-    });
-
-    $stateProvider.state('app.tree', {
-      url: '/app/tree',
-      views: {
-        'tree': {
-          templateUrl: 'templates/tree.html',
-          controller: "TreeCtrl"
-        }
-      }
-    });
 
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/app/home');
+    $urlRouterProvider.otherwise('/tab/home');
 
   });
 

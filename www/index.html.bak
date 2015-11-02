@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+  <title></title>
+
+  <link href="lib/ionic/release/css/ionic.css" rel="stylesheet">
+  <link href="lib/ion-tree-list/ion-tree-list.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+
+  <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+  <link href="css/ionic.app.css" rel="stylesheet">
+  -->
+
+  <!-- ionic/angularjs js -->
+
+
+
+  <script src="lib/ionic/release/js/ionic.bundle.js"></script>
+
+  <script src="lib/angular-local-storage/dist/angular-local-storage.min.js"></script>
+
+  <script src="lib/lodash/lodash.min.js"></script>
+
+  <script src="lib/js-extensions.js"></script>
+  <script src="lib/circular-json/build/circular-json.js"></script>
+
+  <!-- cordova script (this will be a 404 during development) -->
+  <script src="cordova.js"></script>
+
+  <!-- your app's js -->
+  <script src="js/app.js"></script>
+  <script src="js/controllers.js"></script>
+  <script src="js/selectnodecontroller.js"></script>
+
+  <script src="js/services.js"></script>
+
+  <script src="lib/ion-tree-list/ion-tree-list.js"></script>
+
+<!--  <script src="js/selectnodecontroller.js"></script>-->
+
+</head>
+<body ng-app="starter">
+
+
+
+
+
+    <ion-tabs class="tabs-icon-top">
+      <ion-tab title="home" href="#/" icon="icon ion-home">
+
+        <ion-header-bar align-title="left" class="bar-positive">
+          <div class="buttons">
+            <button class="button" ng-click="">XXXX</button>
+          </div>
+          <h1 class="title">Title!</h1>
+
+          <div class="buttons">
+            <button class="button">Right Button</button>
+          </div>
+        </ion-header-bar>
+        <ion-nav-view name="app.home"></ion-nav-view>
+      </ion-tab>
+      <ion-tab title="tree" href="#/tree" icon="icon ion-heart">
+
+
+        <div class="bar bar-header bar-positive">
+          <div class="button-bar">
+            <a class="button" ng-if="hasParent() === true" ng-click="MoveToRoot()">Root</a>
+            <a class="button" ng-click="openModal()">Add</a>
+            <a class="button" ng-click="Save()">Save</a>
+
+          </div>
+        </div>
+        <div class="bar bar-subheader bar-positive">
+          <h2 class="title">{{model.valuePath}}</h2>
+        </div>
+
+
+        <ion-nav-view name="app.tree"></ion-nav-view>
+      </ion-tab>
+      <ion-tab title="app.selectnode" href="#/app/selectnode" icon="icon ion-heart" hidden="true">
+
+
+        <div class="bar bar-header bar-positive">
+          <div class="button-bar">
+
+            <a class="button" ng-if="hasParent() === true" ng-click="MoveToRoot()">Root</a>
+          </div>
+        </div>
+        <div class="bar bar-subheader bar-positive">
+          <h2 class="title">{{model.valuePath}}</h2>
+        </div>
+
+        <ion-nav-view name="app.selectnode"></ion-nav-view>
+      </ion-tab>
+      <ion-tab title="Settings" href="#/settings" icon="icon ion-gear-b">
+
+        <ion-nav-view name="Settings"></ion-nav-view>
+      </ion-tab>
+
+    </ion-tabs>
+
+
+
+</body>
+</html>
