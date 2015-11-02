@@ -1,17 +1,5 @@
 /*
-li:last-child {
-  border-bottom: none;
-}
 
-li:first-child {
-  border-top: none;
-  font-weight: bold;
-}
-li:nth-child(even) {
-
-  background-color: gray;
-}
-*/
 
 li
 {
@@ -22,7 +10,10 @@ ul li{
   padding-left: 50px !important;
 }
 
+*/
 
-/*ul li:nth-child(n+5) {
-  background:#ff0000;
-}*/
+.item
+{
+
+  border-style:none;
+}

@@ -1,7 +1,7 @@
 angular.module('starter.controllers', [])
 
 
-  .controller('BaseCtrl', function ($scope, $ionicModal, $ionicPopup, TreeViewService) {
+  .controller('BaseCtrl', function ($scope, $rootScope,$ionicModal, $ionicPopup, TreeViewService) {
 
     var model = {};
     $scope.model = model;
@@ -9,9 +9,18 @@ angular.module('starter.controllers', [])
     model.valuePath = "";
     model.nodeText = "";
     model.textLimit = 15;
-    model.Editable = true;
+    model.editable = true;
+
     var editNode = null;
 
+
+    TreeViewService.Current().then(function(current)
+    {
+      model.root = current;
+      model.current = current;
+      model.valuePath = TreeViewService.GetValuePath();
+      model.NODETYPES = TreeViewService.NODETYPES;
+    });
 
     $ionicModal.fromTemplateUrl('templates/AddNode.html', function (modal) {
       $scope.addModal = modal;
@@ -37,8 +46,14 @@ angular.module('starter.controllers', [])
     $scope.isVisible=function(node)
     {
 
-      return node.data.constant === true || (node.parent != null && node.parent.collapsed);
+      return (node.data.type === model.NODETYPES.CONTAINER) && ((node.parent != null && node.parent.collapsed) || node.parent.key === 0);
     }
+
+    $scope.nodeSelected = function(node)
+    {
+      $rootScope.$broadcast('NodeSelected', 'Data to send');
+    }
+
 
     $scope.Save = function () {
       TreeViewService.Save();
@@ -95,13 +110,6 @@ angular.module('starter.controllers', [])
 
 
 
-    TreeViewService.Current().then(function(current)
-    {
-      model.root = current;
-      model.current = current;
-      model.valuePath = TreeViewService.GetValuePath();
-      model.NODETYPES = TreeViewService.NODETYPES;
-    });
 
 
     $scope.hasChildContainer=function(node)
@@ -147,7 +155,7 @@ angular.module('starter.controllers', [])
     }
   })
 
-  .controller("HomeCtrl", function ($scope,$timeout, $ionicLoading,TreeViewService) {
+  .controller("HomeCtrl", function ($scope,$rootScope,$timeout, $ionicLoading,TreeViewService) {
 
     var model = {};
     $scope.model = model;
@@ -155,6 +163,10 @@ angular.module('starter.controllers', [])
     TreeViewService.Current().then(function(current)
     {
       model.root = current;
+    });
+
+    $scope.$on('NodeSelected', function (event, data) {
+      console.log(data);
     });
 
     $scope.model.Save=function()
@@ -176,6 +188,7 @@ angular.module('starter.controllers', [])
   })
   .controller('TreeCtrl', function ($scope, _, $ionicPopup, TreeViewService) {
 
+    $scope.model.editable=true;
  /*   var model = $scope.model;
 
     model.nodeText = "";

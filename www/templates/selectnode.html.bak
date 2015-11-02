@@ -1,0 +1,73 @@
+<script type="text/ng-template" id="nodes">
+
+  <div class="row">
+    <div class="col-10">
+      <button class="button button-clear" ng-show="hasChildContainer(node)" ng-click="toggleNode(node)">
+        <i class="icon" ng-class="node.collapsed ? 'ion-chevron-up' : 'ion-chevron-right'"></i>
+      </button>
+    </div>
+    <div class="col">
+      <button class="button button-positive" style="float:right">
+        Select
+      </button>
+      <span class="input-label" >{{node.data.value}}</span>
+    </div>
+  </div>
+
+
+  <ul class="list" class="item-stable" ng-show="node.collapsed === true" >
+
+
+    <li class="item list-item" ng-repeat="node in node.children" ng-include="'nodes'" ng-if="isVisible(node)">
+
+    </li>
+  </ul>
+
+</script>
+
+<ion-view view-title="selectnode">
+
+
+  <ion-content class="has-header has-subheader">
+
+
+    <ul class="list">
+      <li class="item list-item" ng-repeat="node in model.root.children" ng-include="'nodes'" ng-init="node.collapsed=false"></li>
+    </ul>
+
+  </ion-content>
+
+
+</ion-view>
+<!--<script type="text/ng-template" id="nodes">
+
+  <li class="" nav-clear menu-close ng-click="toggleSubmenu()">
+    {{item.data.value}}
+    <ul class="">
+
+      <span ng-repeat="item in item.noderen" ng-include="'nodes'"></span>
+
+
+    </ul>
+  </li>
+</script>
+
+<ion-view view-title="selectnode">
+
+
+
+    <ion-content  class="c" >
+
+      <ul class="">
+
+        <div ng-repeat="item in model.current.noderen" ng-include="'nodes'"></div>
+      </ul>
+
+
+
+    </ion-content>
+
+
+</ion-view>-->
+
+

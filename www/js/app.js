@@ -31,7 +31,19 @@ angular.module('starter', ['ionic',"LocalStorageModule", 'ion-tree-list','starte
 
 
 
-    $stateProvider.state('home', {
+    $stateProvider.state('app', {
+      abstract:true,
+      controller:"BaseCtrl",
+      url: '/app',
+      views: {
+        app: {
+          template: '<ion-nav-view></ion-nav-view>'
+        }
+      }
+
+    });
+
+    $stateProvider.state('app.home', {
       url: '/',
       views: {
         'home': {
@@ -41,19 +53,19 @@ angular.module('starter', ['ionic',"LocalStorageModule", 'ion-tree-list','starte
       }
 
     });
-    $stateProvider.state('selectnode', {
-      url: '/selectnode',
+    $stateProvider.state('app.selectnode', {
+      url: '/app/selectnode',
       views: {
         'selectnode': {
-          templateUrl: 'templates/selectnode.html',
+          templateUrl: 'templates/tree.html',
           controller: "SelectNodeCtrl"
         }
       }
 
     });
 
-    $stateProvider.state('tree', {
-      url: '/tree',
+    $stateProvider.state('app.tree', {
+      url: '/app/tree',
       views: {
         'tree': {
           templateUrl: 'templates/tree.html',
@@ -64,7 +76,7 @@ angular.module('starter', ['ionic',"LocalStorageModule", 'ion-tree-list','starte
 
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/app/home');
 
   });
 

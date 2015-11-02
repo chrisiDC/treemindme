@@ -19,6 +19,7 @@
     <file url="file://$PROJECT_DIR$/www/templates/AddNode.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/templates/home.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/templates/selectnode.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/templates/selectnode.html.bak" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/templates/tree.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/templates/treenode.html" charset="UTF-8" />
   </component>

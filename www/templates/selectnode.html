@@ -1,87 +1,71 @@
-<script type="text/ng-template" id="nodes">
-
-  <ul class="list" class="item-stable" ng-show="isVisible(node)" ng-init="node.collapsed = false"
-            ng-if="node.data.type === model.NODETYPES.CONTAINER">
-
-    <li class="item">
-
-
-      <label class="item item-input">
-        <a class="button button-clear" ng-if="hasChildContainer(node)" ng-click="toggleNode(node)"><i class="icon"
-                                                                                                      ng-class="node.collapsed ? 'ion-chevron-up' : 'ion-chevron-right'"></i>
-        </a>
-        <button class="button button-positive" style="float:right">
-          Select
-        </button>
-        <span class="input-label">{{node.data.value}}</span>
-
-
-      </label>
-    <!--  <label style="padding-bottom: 1px !important"></label>-->
-
-   <!-- <div class="row">
-      <div class="col-20">
-        <button class="button button-positive" ng-if="hasChildContainer(node)" ng-click="toggleNode(node)"><i class="icon"
-                                                                               ng-class="node.collapsed ? 'ion-minus' : 'ion-plus'"></i>
-        </button>
-      </div>
-      <div class="col">
-        {{node.data.value}}
-      </div>
-    </div>-->
-
-    </li>
-
-    <li class="item" ng-show="true" ng-repeat="node in node.children" ng-include="'nodes'">
-
-    </li>
-  </ul>
-
-</script>
-
 <ion-view view-title="selectnode">
 
 
-  <ion-content class="has-header has-subheader">
+  <ion-content  class="has-header has-subheader">
 
 
     <ul class="list">
-      <li class="item" ng-repeat="node in model.root.children" ng-include="'nodes'"></li>
-    </ul>
 
+      <li class="row" ng-show="!IsEditNode(item.key)" ng-repeat-start="item in model.current.children">
+
+        <div class="col col-10 col-left" >
+          <a ng-if="item.data.type !== 1" class="button icon-left ion-chevron-right button-clear button-stable" ng-click="MoveToNode(item)"></a>
+
+        </div>
+        <div class="col col-50 col-center">
+          {{ item.data.value | limitTo:model.textLimit }}
+          {{item.data.value.length > model.textLimit?"...":""}}
+        </div>
+        <div class="col col-40">
+          <div class="button-bar" ng-if="item.data.constant !== true">
+            <a class="button button-small icon ion-edit" ng-click="SetEditNode(item.key)"></a>
+            <a class="button button-small icon ion-close-circled" ng-click="PopupDelete(item.key)"></a>
+
+          </div>
+
+        </div>
+
+      </li>
+      <li class="" ng-show="IsEditNode(item.key)" ng-repeat-end>
+
+
+        <label class="item item-input">
+          <textarea rows="5" ng-model="item.data.value"></textarea>
+        </label>
+        <label class="item">
+          <button class="button button-block icon ion-checkmark-round  button-stable"
+                  ng-click="SetEditNode(null)"></button>
+
+        </label>
+
+      </li>
+
+
+      <!--       <div class="list">
+
+
+
+                 <label class="item item-input">
+
+                 </label>
+
+
+
+
+             </div>
+     -->
+      <!--    <div class="col col-75">
+
+            <label class="item item-input">
+              <input type="text" placeholder="" ng-model="item.data.value">
+            </label>
+
+          </div>
+          <div class="col">
+            <button class="button" ng-click="SetEditNode(null)">Save</button>
+          </div>
+  -->
+
+    </ul>
   </ion-content>
-
-
 </ion-view>
-<!--<script type="text/ng-template" id="nodes">
-
-  <li class="" nav-clear menu-close ng-click="toggleSubmenu()">
-    {{item.data.value}}
-    <ul class="">
-
-      <span ng-repeat="item in item.noderen" ng-include="'nodes'"></span>
-
-
-    </ul>
-  </li>
-</script>
-
-<ion-view view-title="selectnode">
-
-
-
-    <ion-content  class="c" >
-
-      <ul class="">
-
-        <div ng-repeat="item in model.current.noderen" ng-include="'nodes'"></div>
-      </ul>
-
-
-
-    </ion-content>
-
-
-</ion-view>-->
-
-
