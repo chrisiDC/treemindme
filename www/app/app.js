@@ -3,7 +3,7 @@
 angular.module('app.services', []);
 angular.module('app.controllers', [])
 
-angular.module('app', ['ionic',"LocalStorageModule", 'ion-tree-list','app.controllers', 'app.services'])
+angular.module('app', ['ionic',"LocalStorageModule", 'ion-tree-list',"focus-if",'app.controllers', 'app.services'])
 
   .run(function ($ionicPlatform) {
     $ionicPlatform.ready(function () {
@@ -56,20 +56,11 @@ angular.module('app', ['ionic',"LocalStorageModule", 'ion-tree-list','app.contro
       })
 
       .state('tab.tree', {
-        url: '/tree',
+        url: '/tree/:select',
         views: {
           'tab-tree': {
-            templateUrl: 'app/shared/templates/tree.html',
+            templateUrl: 'app/tree/template.html',
             controller: 'app.controllers.tree'
-          }
-        }
-      })
-      .state('tab.select', {
-        url: '/select',
-        views: {
-          'tab-select': {
-            templateUrl: 'app/shared/templates/tree.html',
-            controller: 'app.controller.select'
           }
         }
       })

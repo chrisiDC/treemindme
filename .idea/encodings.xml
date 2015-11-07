@@ -13,14 +13,13 @@
     <file url="file://$PROJECT_DIR$/www/app/app.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/app/home/controller.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/app/home/template.html" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/www/app/select/controller.js" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/www/app/select/template.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/app/shared/base.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/app/shared/directives/focus.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/app/shared/services/treeview.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/app/shared/templates/tabs.html" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/www/app/shared/templates/tree.html" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/www/app/shared/templates/treenode.html" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/app/tree/controller.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/app/tree/template.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/app/tree/treenode.html.bak" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/css/style.css" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/example.json" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/www/index.html.bak" charset="UTF-8" />

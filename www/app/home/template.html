@@ -1,45 +1,50 @@
 <ion-view view-title="base.home">
+  <ion-header-bar align-title="left" class="bar-positive">
+    <div class="buttons">
+      <button class="button" ng-click="">XXXX</button>
+    </div>
+    <h1 class="title">Title!</h1>
 
-  <ion-content class="has-header" scroll="false">
+    <div class="buttons">
+      <button class="button">Right Button</button>
+    </div>
+  </ion-header-bar>
+  <ion-content class="has-header has-subheader" scroll="false">
 
-    <form name="addToInbox" novalidate>
-      <div class="row">
-        <div class="col">
-          <label class="item item-input">
-            <textarea rows="5" type="text" name="text" placeholder="Type new entry" ng-model="model.text"
-                      required></textarea>
-          </label>
-        </div>
+    <div name="addToInbox" class="list" novalidate>
 
-      </div>
-      <div class="row">
-        <div class="col">
+      <label id="email" class="item item-input">
 
-          <span>test</span>
+        <textarea autofocus rows="5" type="text" name="text" placeholder="Type new entry" ng-model="model.text"
+                  required></textarea>
+      </label>
 
+      <div class="item list-item">
 
-        </div>
-        <div class="col">
-
-          <a href="#/tab/select" class="button button-positive">Select another node</a>
-
-
-        </div>
-
-      </div>
-      <div class="row">
-        <div class="col">
-          <div class="button-bar bar-positive">
-
-            <button class="button" ng-click="model.Save()" ng-disabled="addToInbox.text.$invalid">Save</button>
+        <div class="row">
+          <div class="col">
+            <h3>Add to:</h3>
+            <h3>{{model.selected.data.value}}</h3>
+          </div>
+          <div class="col">
+            <a class="button button-energized" ng-click="goToSelect()">Select another node</a>
 
           </div>
         </div>
 
+
+
+      </div>
+      <div class="item list-item">
+
+
+        <button class="button button-full button-positive" ng-click="model.Save()" ng-disabled="addToInbox.text.$invalid">Save</button>
+
+
       </div>
 
 
-    </form>
+    </div>
 
 
   </ion-content>

@@ -136,6 +136,10 @@ angular.module('app.services')
         });
         return path;
       },
+      GetNode:function(key)
+      {
+        return TreeNode.findNode(key,self.root);
+      },
       GetInbox:function()
       {
         return TreeNode.findNode(self.NODEIDS.inbox,self.root);

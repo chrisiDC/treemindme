@@ -1,38 +1,46 @@
 <ion-view view-title="tree">
 
+  <div class="bar bar-header bar-positive">
+    <div class="button-bar">
+      <a class="button" ng-if="hasParent() === true" ng-click="MoveToRoot()">Root</a>
+      <a class="button" ng-click="openModal()">Add</a>
+      <a class="button" ng-click="Save()">Save</a>
 
+    </div>
+  </div>
+  <div class="bar bar-subheader bar-positive">
+    <h2 class="title">{{model.valuePath}}</h2>
+  </div>
   <ion-content class="has-header has-subheader">
 
 
     <ul class="list">
 
-      <li class="row" ng-show="!IsEditNode(item.key)" ng-repeat-start="item in model.current.children"
+      <li class="row" ng-show="item.key !== model.editNode" ng-repeat-start="item in model.current.children"
           ng-init="item.collapsed = false">
 
         <div class="col col-10 col-left" ng-show="item.parent.key !== model.root.key">
 
-          <a class="button icon-left ion-chevron-left button-clear button-dark" ng-click="MoveToParentNode()"></a>
+          <a class="button icon-left ion-chevron-left button-clear button-dark" ng-click="model.current = model.current.parent"></a>
 
 
         </div>
         <div class="col col-10 col-left">
-
-
-          <a class="button icon-left ion-chevron-right button-clear button-dark" ng-if="hasChildContainer(item)" ng-click="MoveToNode(item)"></a>
+          <a class="button icon-left ion-chevron-right button-clear button-dark" ng-if="hasChildContainer(item)" ng-click="model.current = item"></a>
 
         </div>
-        <div class="col -col-20" ng-if="model.editable === false">
+        <div class="col -col-20" ng-if="model.select === true">
           <button class="button button-positive" ng-click="nodeSelected(item)">
             {{ item.data.value | limitTo:model.textLimit }}
             {{item.data.value.length > model.textLimit?"...":""}}
           </button>
         </div>
-        <div class="col col-40 col-center" ng-if="model.editable === true">
+        <div class="col col-40 col-center" ng-if="model.select === false">
           {{ item.data.value | limitTo:model.textLimit }}
           {{item.data.value.length > model.textLimit?"...":""}}
         </div>
-        <div class="col col-40" ng-if="model.editable===true">
-          <div class="button-bar" ng-if="item.data.constant !== true && model.editable">
+        <div class="col col-40" ng-if="model.select===false">
+          <div class="button-bar" ng-if="item.data.constant !== true && !model.select">
             <a class="button button-small icon ion-edit" ng-click="SetEditNode(item.key)"></a>
             <a class="button button-small icon ion-close-circled" ng-click="PopupDelete(item.key)"></a>
 

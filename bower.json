@@ -8,6 +8,7 @@
     "angular-local-storage": "~0.2.3",
     "lodash": "~3.10.1",
     "circular-json": "~0.2.0",
-    "ion-tree-list": "~0.0.3"
+    "ion-tree-list": "~0.0.3",
+    "ng-focus-if": "~1.0.2"
   }
 }
